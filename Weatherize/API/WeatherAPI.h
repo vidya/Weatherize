@@ -15,14 +15,10 @@
 @property (strong, nonatomic) NSString* temperatureUnits;
 @property (strong, nonatomic) LocationInfo* locationInfo;
 
-- (NSURL *)getURLforWeatherType:(NSString *)weatherTypeID inUnits:(NSString *)temperatureUnits;
+typedef void (^APICallCompletionHandler)(NSDictionary *jsonDict);
 
-typedef void (^APICallCompletionBlock)(NSDictionary *weatherData);
-
-- (void)queryURL:(NSURL *)url withCompletion:(APICallCompletionBlock)completion;
-
-- (void)getCurrentWeatherInUnits:(NSString*)temperatureUnits withCompletion:(APICallCompletionBlock)completion;
-- (void)getForecastWeatherInUnits:(NSString*)temperatureUnits withCompletion:(APICallCompletionBlock)completion;
+- (void)getCurrentWeatherInUnits:(NSString*)temperatureUnits withCompletion:(APICallCompletionHandler)completion;
+- (void)getForecastWeatherInUnits:(NSString*)temperatureUnits withCompletion:(APICallCompletionHandler)completion;
 
 typedef void (^ImageCompletionBlock)(NSError *error, UIImage *image);
 - (void)getIconWithID:(NSString *)weatherIconID completion:(ImageCompletionBlock)completion;

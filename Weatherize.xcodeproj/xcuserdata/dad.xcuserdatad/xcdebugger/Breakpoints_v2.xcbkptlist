@@ -10,7 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Weatherize/API/WeatherAPI.m"
-            timestampString = "539796015.937394"
+            timestampString = "539798387.13036"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "43"
@@ -26,7 +26,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Weatherize/API/WeatherAPI.m"
-            timestampString = "539796015.9383169"
+            timestampString = "539798387.131685"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "65"
@@ -42,7 +42,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Weatherize/API/WeatherAPI.m"
-            timestampString = "539796015.938669"
+            timestampString = "539798387.1322809"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "40"
@@ -58,7 +58,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Weatherize/API/WeatherAPI.m"
-            timestampString = "539796015.939006"
+            timestampString = "539798387.132829"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "62"
@@ -74,7 +74,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Weatherize/API/WeatherAPI.m"
-            timestampString = "539796015.9393409"
+            timestampString = "539798387.133414"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "91"
@@ -90,7 +90,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Weatherize/API/WeatherAPI.m"
-            timestampString = "539796015.9396729"
+            timestampString = "539798387.133996"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "52"
@@ -106,7 +106,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Weatherize/API/WeatherAPI.m"
-            timestampString = "539796015.940004"
+            timestampString = "539798387.134573"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "59"
@@ -122,7 +122,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Weatherize/API/WeatherAPI.m"
-            timestampString = "539796015.9404"
+            timestampString = "539798387.135123"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "48"
@@ -138,7 +138,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Weatherize/AppDelegate.m"
-            timestampString = "539796015.940734"
+            timestampString = "539798387.135654"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "30"
@@ -154,7 +154,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Weatherize/AppDelegate.m"
-            timestampString = "539796015.941119"
+            timestampString = "539798387.136215"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "26"
@@ -170,11 +170,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Weatherize/API/WeatherData.m"
-            timestampString = "539796015.941425"
+            timestampString = "539798387.1366889"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "96"
-            endingLineNumber = "96"
+            startingLineNumber = "83"
+            endingLineNumber = "83"
             landmarkName = "-getCurrentWeatherInfoWithCompletion:"
             landmarkType = "7">
          </BreakpointContent>
@@ -185,24 +185,8 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Weatherize/API/WeatherData.m"
-            timestampString = "539796015.942832"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "80"
-            endingLineNumber = "80"
-            landmarkName = "-extractWeatherInfo:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "Weatherize/AppDelegate.m"
-            timestampString = "539796015.944024"
+            timestampString = "539798387.139688"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "28"
@@ -250,7 +234,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Weatherize/AppDelegate.m"
-            timestampString = "539796015.944337"
+            timestampString = "539798387.140219"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "29"
@@ -266,27 +250,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Weatherize/API/WeatherData.m"
-            timestampString = "539796015.944636"
+            timestampString = "539798387.1407501"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "89"
-            endingLineNumber = "89"
-            landmarkName = "-extractWeatherInfoList:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Weatherize/API/WeatherData.m"
-            timestampString = "539796015.945796"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "98"
-            endingLineNumber = "98"
+            startingLineNumber = "85"
+            endingLineNumber = "85"
             landmarkName = "-getCurrentWeatherInfoWithCompletion:"
             landmarkType = "7">
          </BreakpointContent>
@@ -298,11 +266,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Weatherize/API/WeatherData.m"
-            timestampString = "539796015.946936"
+            timestampString = "539798387.143162"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "103"
-            endingLineNumber = "103"
+            startingLineNumber = "90"
+            endingLineNumber = "90"
             landmarkName = "-getFiveDayForecastInfoWithCompletion:"
             landmarkType = "7">
             <Locations>
@@ -314,11 +282,11 @@
                   moduleName = "Weatherize"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/dad/Documents/App/coding_test/v-180206-2-Weatherize/Weatherize/Weatherize/API/WeatherData.m"
-                  timestampString = "539796015.966393"
+                  timestampString = "539798387.169013"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "103"
-                  endingLineNumber = "103"
+                  startingLineNumber = "90"
+                  endingLineNumber = "90"
                   offsetFromSymbolStart = "43">
                </Location>
                <Location
@@ -329,11 +297,11 @@
                   moduleName = "Weatherize"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/dad/Documents/App/coding_test/v-180206-2-Weatherize/Weatherize/Weatherize/API/WeatherData.m"
-                  timestampString = "539796015.970363"
+                  timestampString = "539798387.174305"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "103"
-                  endingLineNumber = "103"
+                  startingLineNumber = "90"
+                  endingLineNumber = "90"
                   offsetFromSymbolStart = "39">
                </Location>
             </Locations>
@@ -346,11 +314,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Weatherize/API/WeatherData.m"
-            timestampString = "539796015.948025"
+            timestampString = "539798387.1455539"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "95"
-            endingLineNumber = "95"
+            startingLineNumber = "82"
+            endingLineNumber = "82"
             landmarkName = "-getCurrentWeatherInfoWithCompletion:"
             landmarkType = "7">
             <Locations>
@@ -362,11 +330,11 @@
                   moduleName = "Weatherize"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/dad/Documents/App/coding_test/v-180206-2-Weatherize/Weatherize/Weatherize/API/WeatherData.m"
-                  timestampString = "539796016.097289"
+                  timestampString = "539798387.353537"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "95"
-                  endingLineNumber = "95"
+                  startingLineNumber = "82"
+                  endingLineNumber = "82"
                   offsetFromSymbolStart = "43">
                </Location>
                <Location
@@ -377,11 +345,11 @@
                   moduleName = "Weatherize"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/dad/Documents/App/coding_test/v-180206-2-Weatherize/Weatherize/Weatherize/API/WeatherData.m"
-                  timestampString = "539796016.102319"
+                  timestampString = "539798387.3577811"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "95"
-                  endingLineNumber = "95"
+                  startingLineNumber = "82"
+                  endingLineNumber = "82"
                   offsetFromSymbolStart = "16">
                </Location>
             </Locations>

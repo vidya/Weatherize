@@ -60,7 +60,7 @@
     return [NSMutableArray arrayWithObject:currentDay];
 }
 
-- (NSDictionary *)fetchWeatherData: (NSDictionary *)jsonDict {
+- (NSDictionary *)extractWeatherInfo: (NSDictionary *)jsonDict {
     NSMutableDictionary *infoDict = [NSMutableDictionary new];
 
     NSString *weatherIcon = [[jsonDict objectForKey:@"weather"] objectAtIndex:0][@"icon"];
@@ -72,26 +72,13 @@
     return infoDict;
 }
 
-- (NSDictionary *)extractWeatherInfo: (NSDictionary *)jsonDict {
-//    NSError *error = nil;
-//
-//    NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:weatherData options:0 error:&error];
-    
-    NSDictionary *infoDict = [self fetchWeatherData: jsonDict];
-
-    return infoDict;
-}
-
 - (NSArray *)extractWeatherInfoList: (NSDictionary *)json {
-//    NSError *error = nil;
-//    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:weatherData options:0 error:&error];
-    
     NSArray *weatherInfoArray = [json objectForKey:@"list"];
 
     return weatherInfoArray;
 }
 
-- (void)getCurrentWeatherInfoWithCompletion:(InfoCompletionBlock)completion {
+- (void)getCurrentWeatherInfoWithCompletion:(APICallCompletionHandler)completion {
     [self.weatherAPI getCurrentWeatherInUnits: @"imperial" withCompletion:^(NSDictionary *weatherData) {
         NSDictionary *currentWeatherInfo = [self extractWeatherInfo:weatherData];
 
@@ -99,7 +86,7 @@
     }];
 }
 
-- (void)getFiveDayForecastInfoWithCompletion:(InfoCompletionBlock)completion {
+- (void)getFiveDayForecastInfoWithCompletion:(APICallCompletionHandler)completion {
     [self.weatherAPI getForecastWeatherInUnits: @"imperial" withCompletion: ^(NSDictionary *weatherData) {
         NSArray *weatherInfoArray = [self extractWeatherInfoList:weatherData];
         
@@ -107,7 +94,7 @@
         NSMutableDictionary *fiveDayForecastInfo = [NSMutableDictionary new];
 
         for (NSDictionary *weatherInfo in weatherInfoArray) {
-            NSDictionary *infoDict = [self fetchWeatherData:weatherInfo];
+            NSDictionary *infoDict = [self extractWeatherInfo:weatherInfo];
             
             [fiveDayForecastArray addObject:infoDict];
 

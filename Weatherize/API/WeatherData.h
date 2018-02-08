@@ -12,18 +12,8 @@
 
 @property (strong, nonatomic) WeatherAPI* weatherAPI;
 
-- (NSString *)currentDay;
-- (NSArray *)fiveDays;
-
-- (NSDictionary *)fetchWeatherData: (NSDictionary *)jsonData;
-
-- (NSDictionary *)extractWeatherInfo: (NSDictionary *)weatherData;
-- (NSArray *)extractWeatherInfoList: (NSDictionary *)weatherData;
-
-typedef void (^InfoCompletionBlock)(NSDictionary *information);
-
-- (void)getCurrentWeatherInfoWithCompletion:(InfoCompletionBlock)completion;
-- (void)getFiveDayForecastInfoWithCompletion:(InfoCompletionBlock)completion;
+- (void)getCurrentWeatherInfoWithCompletion:(APICallCompletionHandler)completion;
+- (void)getFiveDayForecastInfoWithCompletion:(APICallCompletionHandler)completion;
 
 @end
 
