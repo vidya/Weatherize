@@ -72,12 +72,6 @@
     return dataDict;
 }
 
-- (NSArray *)extractWeatherDataList: (NSDictionary *)apiResponseDict {
-    NSArray *weatherDataDictArray = [apiResponseDict objectForKey:@"list"];
-
-    return weatherDataDictArray;
-}
-
 - (void)getCurrentWeatherInfoWithCompletion:(APICallCompletionHandler)completion {
     [self.weatherAPI getCurrentWeatherInUnits: @"imperial" withCompletion:^(NSDictionary *apiResponseDict) {
         NSDictionary *weatherInfoDict = [self extractWeatherData:apiResponseDict];
@@ -88,7 +82,8 @@
 
 - (void)getFiveDayForecastInfoWithCompletion:(APICallCompletionHandler)completion {
     [self.weatherAPI getForecastWeatherInUnits: @"imperial" withCompletion: ^(NSDictionary *apiResponseDict) {
-        NSArray *weatherInfoDictArray = [self extractWeatherDataList:apiResponseDict];
+
+        NSArray *weatherInfoDictArray = [apiResponseDict objectForKey:@"list"];
         
         NSMutableArray *fiveDayForecastArray = [NSMutableArray arrayWithCapacity:5];
         NSMutableDictionary *fiveDayForecastInfo = [NSMutableDictionary new];
