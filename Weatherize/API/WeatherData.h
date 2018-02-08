@@ -12,6 +12,12 @@
 
 @property (strong, nonatomic) WeatherAPI* weatherAPI;
 
+- (NSString *)currentDay;
+- (NSArray *)fiveDays;
+
+- (NSDictionary *)extractWeatherInfo: (NSData *)weatherData;
+- (NSArray *)extractWeatherInfoList: (NSData *)weatherData;
+
 typedef void (^InfoCompletionBlock)(NSDictionary *information);
 
 - (void)getCurrentWeatherInfoWithCompletion:(InfoCompletionBlock)completion;
