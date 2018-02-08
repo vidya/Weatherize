@@ -26,7 +26,7 @@ static NSString* const iconURL = @"https://openweathermap.org/img/w/";
     self = [super init];
     
     if(self) {
-        self.locationInfo = [LocationInfo new];
+//        self.locationInfo = [LocationInfo new];
     }
     
     return self;

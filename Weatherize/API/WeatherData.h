@@ -15,6 +15,8 @@
 - (NSString *)currentDay;
 - (NSArray *)fiveDays;
 
+- (NSDictionary *)fetchWeatherData: (NSDictionary *)jsonData;
+
 - (NSDictionary *)extractWeatherInfo: (NSData *)weatherData;
 - (NSArray *)extractWeatherInfoList: (NSData *)weatherData;
 

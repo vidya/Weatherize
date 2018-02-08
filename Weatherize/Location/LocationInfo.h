@@ -14,4 +14,6 @@
 @property double latitude;
 @property double longitude;
 
+- (LocationInfo*)sharedSingleton;
+
 @end

@@ -26,7 +26,9 @@
 - (NSString *)currentDay {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"EEEE"];
+    
     NSLog(@"The day of the week: %@", [dateFormatter stringFromDate:[NSDate date]]);
+    
     return [dateFormatter stringFromDate:[NSDate date]];
 }
 
@@ -58,17 +60,24 @@
     return [NSMutableArray arrayWithObject:currentDay];
 }
 
-- (NSDictionary *)extractWeatherInfo: (NSData *)weatherData {
+- (NSDictionary *)fetchWeatherData: (NSDictionary *)jsonDict {
     NSMutableDictionary *infoDict = [NSMutableDictionary new];
-    NSError *error = nil;
 
-    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:weatherData options:0 error:&error];
-    
-    NSString *weatherIcon = [[json objectForKey:@"weather"] objectAtIndex:0][@"icon"];
-    NSString *temperature = [json objectForKey:@"main"][@"temp"];
+    NSString *weatherIcon = [[jsonDict objectForKey:@"weather"] objectAtIndex:0][@"icon"];
+    NSString *temperature = [jsonDict objectForKey:@"main"][@"temp"];
     
     infoDict[@"weatherIcon"] = weatherIcon;
     infoDict[@"temperature"] = temperature;
+    
+    return infoDict;
+}
+
+- (NSDictionary *)extractWeatherInfo: (NSData *)weatherData {
+    NSError *error = nil;
+
+    NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:weatherData options:0 error:&error];
+    
+    NSDictionary *infoDict = [self fetchWeatherData: jsonDict];
 
     return infoDict;
 }
@@ -76,8 +85,6 @@
 - (NSArray *)extractWeatherInfoList: (NSData *)weatherData {
     NSError *error = nil;
     NSDictionary *json = [NSJSONSerialization JSONObjectWithData:weatherData options:0 error:&error];
-    
-    NSMutableArray *fiveDayForecastInfo = [NSMutableArray arrayWithCapacity:5];
     
     NSArray *weatherInfoArray = [json objectForKey:@"list"];
 
@@ -94,19 +101,27 @@
 
 - (void)getFiveDayForecastInfoWithCompletion:(InfoCompletionBlock)completion {
     [self.weatherAPI getForecastWeatherInUnits: @"imperial" withCompletion: ^(NSData *weatherData) {
-        NSMutableArray *fiveDayForecastInfo = [NSMutableArray arrayWithCapacity:5];
-        
         NSArray *weatherInfoArray = [self extractWeatherInfoList:weatherData];
         
-        for (NSDictionary *weatherInfo in weatherInfoArray) {
-            NSDictionary *oneDayWeatherInfo = [self extractWeatherInfo:weatherData];
+        NSMutableArray *fiveDayForecastArray = [NSMutableArray arrayWithCapacity:5];
+        NSMutableDictionary *fiveDayForecastInfo = [NSMutableDictionary new];
 
-            [fiveDayForecastInfo addObject:oneDayWeatherInfo];
+        for (NSDictionary *weatherInfo in weatherInfoArray) {
+            NSDictionary *infoDict = [self fetchWeatherData:weatherInfo];
             
+            [fiveDayForecastArray addObject:infoDict];
+
             if ([fiveDayForecastInfo count] == 5) {
+                for (NSString *day in [self fiveDays]) {
+                    int dex = (int)[[self fiveDays] indexOfObject:day];
+                    fiveDayForecastInfo[day] = fiveDayForecastArray[dex];
+                }
                 
+                NSLog(@"This is the Five Day Forecast Info: %@", fiveDayForecastInfo);
             }
         }
+        
+        completion(fiveDayForecastInfo);
     }];
 }
 
