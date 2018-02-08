@@ -17,8 +17,8 @@
 
 - (NSDictionary *)fetchWeatherData: (NSDictionary *)jsonData;
 
-- (NSDictionary *)extractWeatherInfo: (NSData *)weatherData;
-- (NSArray *)extractWeatherInfoList: (NSData *)weatherData;
+- (NSDictionary *)extractWeatherInfo: (NSDictionary *)weatherData;
+- (NSArray *)extractWeatherInfoList: (NSDictionary *)weatherData;
 
 typedef void (^InfoCompletionBlock)(NSDictionary *information);
 

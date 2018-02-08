@@ -72,19 +72,19 @@
     return infoDict;
 }
 
-- (NSDictionary *)extractWeatherInfo: (NSData *)weatherData {
-    NSError *error = nil;
-
-    NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:weatherData options:0 error:&error];
+- (NSDictionary *)extractWeatherInfo: (NSDictionary *)jsonDict {
+//    NSError *error = nil;
+//
+//    NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:weatherData options:0 error:&error];
     
     NSDictionary *infoDict = [self fetchWeatherData: jsonDict];
 
     return infoDict;
 }
 
-- (NSArray *)extractWeatherInfoList: (NSData *)weatherData {
-    NSError *error = nil;
-    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:weatherData options:0 error:&error];
+- (NSArray *)extractWeatherInfoList: (NSDictionary *)json {
+//    NSError *error = nil;
+//    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:weatherData options:0 error:&error];
     
     NSArray *weatherInfoArray = [json objectForKey:@"list"];
 
@@ -92,7 +92,7 @@
 }
 
 - (void)getCurrentWeatherInfoWithCompletion:(InfoCompletionBlock)completion {
-    [self.weatherAPI getCurrentWeatherInUnits: @"imperial" withCompletion:^(NSData *weatherData) {
+    [self.weatherAPI getCurrentWeatherInUnits: @"imperial" withCompletion:^(NSDictionary *weatherData) {
         NSDictionary *currentWeatherInfo = [self extractWeatherInfo:weatherData];
 
         completion(currentWeatherInfo);
@@ -100,7 +100,7 @@
 }
 
 - (void)getFiveDayForecastInfoWithCompletion:(InfoCompletionBlock)completion {
-    [self.weatherAPI getForecastWeatherInUnits: @"imperial" withCompletion: ^(NSData *weatherData) {
+    [self.weatherAPI getForecastWeatherInUnits: @"imperial" withCompletion: ^(NSDictionary *weatherData) {
         NSArray *weatherInfoArray = [self extractWeatherInfoList:weatherData];
         
         NSMutableArray *fiveDayForecastArray = [NSMutableArray arrayWithCapacity:5];

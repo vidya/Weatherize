@@ -65,30 +65,33 @@ static NSString* const iconURL = @"https://openweathermap.org/img/w/";
     return [NSURL URLWithString: encodedURL];
 }
 
-- (void)queryURL:(NSURL *)url withCompletion:(WeatherCompletionBlock)completion {
+- (void)queryURL:(NSURL *)url withCompletion:(APICallCompletionBlock)completion {
     [[[NSURLSession sharedSession]
       dataTaskWithURL:url
-      completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-          if (!error) {
-              NSError *error = nil;
-              NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-              NSLog(@"data: %@", json);
-
-              completion(data);
-          }
-          else {
+      completionHandler:^(NSData *responseData, NSURLResponse *response, NSError *apiCallError) {
+          if (apiCallError) {
               completion(nil);
           }
+          
+          NSError *parseError = nil;
+          NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:&parseError];
+          NSLog(@"data: %@", jsonDict);
+
+          if (parseError) {
+              completion(nil);
+          }
+
+        completion(jsonDict);
       }] resume];
 }
 
-- (void)getCurrentWeatherInUnits:(NSString*)temperatureUnits withCompletion:(WeatherCompletionBlock)completion {
+- (void)getCurrentWeatherInUnits:(NSString*)temperatureUnits withCompletion:(APICallCompletionBlock)completion {
     NSURL *url = [self getURLforWeatherType:currentWeather inUnits:temperatureUnits];
     
     [self queryURL:url withCompletion:completion];
 }
 
-- (void)getForecastWeatherInUnits:(NSString*)temperatureUnits withCompletion:(WeatherCompletionBlock)completion {
+- (void)getForecastWeatherInUnits:(NSString*)temperatureUnits withCompletion:(APICallCompletionBlock)completion {
     NSURL *url = [self getURLforWeatherType:forecastWeather  inUnits:temperatureUnits];
 
     [self queryURL:url withCompletion:completion];

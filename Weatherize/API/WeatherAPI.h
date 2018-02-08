@@ -17,11 +17,12 @@
 
 - (NSURL *)getURLforWeatherType:(NSString *)weatherTypeID inUnits:(NSString *)temperatureUnits;
 
-typedef void (^WeatherCompletionBlock)(NSData *weatherData);
-- (void)queryURL:(NSURL *)url withCompletion:(WeatherCompletionBlock)completion;
+typedef void (^APICallCompletionBlock)(NSDictionary *weatherData);
 
-- (void)getCurrentWeatherInUnits:(NSString*)temperatureUnits withCompletion:(WeatherCompletionBlock)completion;
-- (void)getForecastWeatherInUnits:(NSString*)temperatureUnits withCompletion:(WeatherCompletionBlock)completion;
+- (void)queryURL:(NSURL *)url withCompletion:(APICallCompletionBlock)completion;
+
+- (void)getCurrentWeatherInUnits:(NSString*)temperatureUnits withCompletion:(APICallCompletionBlock)completion;
+- (void)getForecastWeatherInUnits:(NSString*)temperatureUnits withCompletion:(APICallCompletionBlock)completion;
 
 typedef void (^ImageCompletionBlock)(NSError *error, UIImage *image);
 - (void)getIconWithID:(NSString *)weatherIconID completion:(ImageCompletionBlock)completion;
