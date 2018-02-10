@@ -15,6 +15,8 @@
 - (void)getCurrentWeatherInfoWithCompletion:(APICallCompletionHandler)completion;
 - (void)getFiveDayForecastInfoWithCompletion:(APICallCompletionHandler)completion;
 
+- (void)getWeatherDataWithCompletion:(NewAPICallCompletionHandler)completion;
+
 @end
 
 

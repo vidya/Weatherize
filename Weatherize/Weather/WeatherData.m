@@ -17,6 +17,7 @@
     
     if (self) {
         self.weatherAPI = [WeatherAPI new];
+        self.nextFiveDayNames = [NSMutableArray new];
         self.nextFiveDayNames = [self getNextFiveDayNames];
     }
     
@@ -89,6 +90,53 @@
         completion(fiveDayForecastInfo);
     }];
 }
+
+- (void)getWeatherDataWithCompletion:(NewAPICallCompletionHandler)completion {
+    NSMutableArray *weatherData = [NSMutableArray new];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"EEEE"];
+
+    [self getCurrentWeatherInfoWithCompletion:^(NSDictionary *info) {
+        NSDate *today = [NSDate date];
+        NSString *dayName = [dateFormatter stringFromDate: today];
+        NSMutableDictionary *tempDict = [NSMutableDictionary new];
+        
+        tempDict[@"dayName"] = dayName;
+        tempDict[@"weatherIcon"] = info[@"weatherIcon"];
+        tempDict[@"temperature"] = info[@"temperature"];
+
+        [weatherData addObject:tempDict];
+
+//        [self getFiveDayForecastInfoWithCompletion: ^(NSDictionary *apiResponseDict) {
+//
+//            NSArray *fiveDayList = self.nextFiveDayNames;
+//            NSArray *weatherInfoDictArray = [apiResponseDict objectForKey:@"list"];
+//
+//            NSMutableDictionary *fiveDayForecastInfo = [NSMutableDictionary new];
+//
+//            for (int n = 0; n < 5; n++ ) {
+//                NSString *dayName = fiveDayList[n];
+//                NSDictionary *dayWeatherDict = weatherInfoDictArray[n];
+//
+//                fiveDayForecastInfo[dayName] = [self extractWeatherData:dayWeatherDict];
+//
+//                NSMutableDictionary *tempDict = [NSMutableDictionary new];
+//
+//                tempDict[@"dayName"] = dayName;
+//                tempDict[@"weatherIcon"] = fiveDayForecastInfo[@"weatherIcon"];
+//                tempDict[@"temperature"] = fiveDayForecastInfo[@"temperature"];
+//
+//                [weatherData addObject:tempDict];
+//            }
+//            completion(weatherData);
+//
+//        }];
+
+        completion(weatherData);
+    
+    }];
+}
+
 
 @end
 

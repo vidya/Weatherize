@@ -15,6 +15,7 @@
 
 @property (strong, nonatomic) WeatherData *weatherData;
 
+//@property (strong, nonatomic) NSMutableDictionary *forecastInfo;
 @property (strong, nonatomic) NSDictionary *forecastInfo;
 @property (strong, nonatomic) NSDictionary *currentWeatherInfo;
 
