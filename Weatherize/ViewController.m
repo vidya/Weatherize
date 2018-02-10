@@ -122,7 +122,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self setCurrentWeatherInfo];
+    [self.weatherData getWeatherDataWithCompletion:^(NSArray *dataResponse) {
+    
+        self.dataResponseArray = (NSMutableArray *) dataResponse;        
+        
+        [[self tableView] reloadData];
+
+    }];
     [[self tableView] reloadData];
 
 }
@@ -148,63 +154,26 @@
     }];
 }
 
-- (void)setCurrentWeatherInfo {
-    [[self weatherData] getWeatherDataWithCompletion:^(NSArray *weatherDataArray) {
-        NSDictionary *info = weatherDataArray[0];
-        
-        NSString *iconID = info[@"weatherIcon"];
-        NSString *temperature = info[@"temperature"];
-
-        [self setWeatherIcon:iconID inImageView:[self headerWeatherIcon]];
-        [self setTemperature:temperature inLabel:[self headerTemperatureLabel]];
-
-        [self.weatherData getFiveDayForecastInfoWithCompletion: ^(NSDictionary *apiResponseDict) {
-            self.forecastInfo = apiResponseDict;
-            [[self tableView] reloadData];
-            
-//            NSArray *fiveDayList = self.weatherData. nextFiveDayNames;
-//            NSArray *weatherInfoDictArray = [apiResponseDict objectForKey:@"list"];
+//- (void)setCurrentWeatherInfo {
+//    [[self weatherData] getWeatherDataWithCompletion:^(NSArray *weatherDataArray) {
+//        NSDictionary *info = weatherDataArray[0];
 //
-//            NSMutableDictionary *fiveDayForecastInfo = [NSMutableDictionary new];
+//        NSString *iconID = info[@"weatherIcon"];
+//        NSString *temperature = info[@"temperature"];
 //
-//            NSMutableArray *weatherData = [NSMutableArray new];
+//        [self setWeatherIcon:iconID inImageView:[self headerWeatherIcon]];
+//        [self setTemperature:temperature inLabel:[self headerTemperatureLabel]];
 //
-//            for (int n = 0; n < 5; n++ ) {
-//                NSString *dayName = fiveDayList[n];
-//                NSDictionary *dayWeatherDict = weatherInfoDictArray[n];
-//
-////                fiveDayForecastInfo[dayName] = [self.weatherData extractWeatherData:dayWeatherDict];
-////                fiveDayForecastInfo[dayName] = dayWeatherDict;
-//                fiveDayForecastInfo[dayName] = apiResponseDict[dayName];
-//
-//                NSMutableDictionary *tempDict = [NSMutableDictionary new];
-//
-//                tempDict[@"dayName"] = dayName;
-//                tempDict[@"weatherIcon"] = fiveDayForecastInfo[@"weatherIcon"];
-//                tempDict[@"temperature"] = fiveDayForecastInfo[@"temperature"];
-//
-////                [weatherData addObject:tempDict];
-//                [weatherData addObject:fiveDayForecastInfo[dayName]];
-//            }
-
-//            self.forecastInfo = apiResponseDict;
-//        for (int n = 0; n < 5; n++) {
-////            NSDictionary *info = weatherDataArray[n];
+////        [self.weatherData getFiveDayForecastInfoWithCompletion: ^(NSDictionary *apiResponseDict) {
+////            self.forecastInfo = apiResponseDict;
+////            [[self tableView] reloadData];
 ////
-////            NSString *dayName = info[@"dayName"];
-////            [self.forecastInfo setObject:info forKey:dayName];
+////        }];
 //
-//            NSString *dayName = info[@"dayName"];
-//            [self.forecastInfo setObject:fiveDayForecastInfo[dayName] forKey:dayName];
-//        }
-        }];
-        
-        [[self tableView] reloadData];
-
-
-    }];
-    [[self tableView] reloadData];
-}
+//        [[self tableView] reloadData];
+//    }];
+//    [[self tableView] reloadData];
+//}
 
 #pragma mark UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -212,7 +181,8 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [[self forecastInfo] count];
+//    return [[self forecastInfo] count];
+    return [[self dataResponseArray] count];
 }
 
 - (WeatherTableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -222,9 +192,21 @@
         cell = [[WeatherTableViewCell new] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"weatherCell"];
     }
     
-    NSString *dayName = [self weatherData].nextFiveDayNames[indexPath.row];
-    NSDictionary *tempDict = self.forecastInfo[dayName];
+    NSDictionary *dayDict = self.dataResponseArray[indexPath.row];
     
+    int newIndex = 0;
+    if (indexPath.row > 4) {
+        newIndex = 4;
+    }
+    else {
+        newIndex = indexPath.row;
+    }
+//    NSString *dayName = [self weatherData].nextFiveDayNames[indexPath.row];
+    NSString *dayName = [self weatherData].nextFiveDayNames[newIndex];
+
+//    NSDictionary *tempDict = self.forecastInfo[dayName];
+    NSDictionary *tempDict = dayDict;
+
     NSString *iconID = tempDict[@"weatherIcon"];
     NSString *temperature = tempDict[@"temperature"];
 
