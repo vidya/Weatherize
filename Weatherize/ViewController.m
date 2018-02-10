@@ -1,31 +1,3 @@
-////
-////  ViewController.m
-////  Weatherize
-////
-////  Created by Vidya Sagar on 2/6/18.
-////
-//
-//#import "ViewController.h"
-//
-//@interface ViewController ()
-//
-//@end
-//
-//@implementation ViewController
-//
-//- (void)viewDidLoad {
-//    [super viewDidLoad];
-//    // Do any additional setup after loading the view, typically from a nib.
-//}
-//
-//
-//- (void)didReceiveMemoryWarning {
-//    [super didReceiveMemoryWarning];
-//    // Dispose of any resources that can be recreated.
-//}
-//
-//
-//@end
 //  ViewController.m
 //  Weatherize
 //
@@ -53,11 +25,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
-    [self loadWeatherInfo];
+
+    [self setCurrentWeatherInfo];
 }
 
-- (void)configureTemperature:(NSString *)temperature inLabel:(UILabel *)label {
+- (void)setTemperature:(NSString *)temperature inLabel:(UILabel *)label {
     dispatch_async(dispatch_get_main_queue(), ^{
         [label setFont:[UIFont systemFontOfSize:16.0]];
         
@@ -65,27 +37,26 @@
     });
 }
 
-- (void)configureDay:(NSString *)day inLabel:(UILabel *)label {
+- (void)setDayLabel:(NSString *)day inLabel:(UILabel *)label {
     [label setFont:[UIFont systemFontOfSize:14.0 weight:UIFontWeightBold]];
     [label setText:day];
 }
 
-- (void)configureWeatherIcon:(NSString *)weatherIcon inImageView:(UIImageView *)imageView {
+- (void)setWeatherIcon:(NSString *)weatherIcon inImageView:(UIImageView *)imageView {
     [[[self weatherData] weatherAPI] getIconWithID:weatherIcon completion:^(NSError *error, UIImage *image) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [imageView setImage:image];
         });
     }];
-    
 }
 
-- (void)loadWeatherInfo {
+- (void)setCurrentWeatherInfo {
     [[self weatherData] getCurrentWeatherInfoWithCompletion:^(NSDictionary *info) {
-        self.currentWeatherInfo = info;
-        NSLog(@"current weather info:\n %@", self.currentWeatherInfo);
-        
-        [self configureWeatherIcon:self.currentWeatherInfo[@"weatherIcon"] inImageView:[self headerWeatherIcon]];
-        [self configureTemperature:self.currentWeatherInfo[@"temperature"] inLabel:[self headerTemperatureLabel]];
+        NSString *iconID = info[@"weatherIcon"];
+        NSString *temperature = info[@"temperature"];
+
+        [self setWeatherIcon:iconID inImageView:[self headerWeatherIcon]];
+        [self setTemperature:temperature inLabel:[self headerTemperatureLabel]];
     }];
     
     [[self weatherData] getFiveDayForecastInfoWithCompletion:^(NSDictionary *info) {
@@ -95,8 +66,7 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             [[self tableView] reloadData];
         });
-    }];
-    
+    }];    
 }
 
 #pragma mark UITableViewDataSource
@@ -115,17 +85,13 @@
         cell = [[WeatherTableViewCell new] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"weatherCell"];
     }
     
-    NSString *currentDay = [self weatherData].nextFiveDayNames[indexPath.row];
-    NSLog(@"forecastInfo for currentDay: %@", self.forecastInfo[currentDay]);
-    
-    NSDictionary *dayForecast = self.forecastInfo[currentDay];
-    
-    NSString *weatherIcon = dayForecast[@"weatherIcon"];
-    NSString *temperature = dayForecast[@"temperature"];
-    
-    [self configureDay:currentDay inLabel:cell.dayLabel];
-    [self configureWeatherIcon:weatherIcon inImageView:cell.weatherIcon];
-    [self configureTemperature:temperature inLabel:cell.temperatureLabel];
+    NSString *dayName = [self weatherData].nextFiveDayNames[indexPath.row];
+    NSString *iconID = self.forecastInfo[dayName][@"weatherIcon"];
+    NSString *temperature = self.forecastInfo[dayName][@"temperature"];
+
+    [self setDayLabel:dayName inLabel:cell.dayLabel];
+    [self setWeatherIcon:iconID inImageView:cell.weatherIcon];
+    [self setTemperature:temperature inLabel:cell.temperatureLabel];
     
     return cell;
 }
