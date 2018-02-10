@@ -1,4 +1,3 @@
-//
 //  AppDelegate.m
 //  Weatherize
 //
@@ -18,19 +17,6 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-//    WeatherAPI* weatherAPI = [[WeatherAPI alloc] init];
-//    WeatherData* weatherData = [[WeatherData alloc] init];
-//
-//    [weatherData getCurrentWeatherInfoWithCompletion:^(NSDictionary *info) {
-//        NSLog(@"%@", info);
-//    }];
-//    
-//    [weatherData getFiveDayForecastInfoWithCompletion:^(NSDictionary *info) {
-//        NSLog(@"%@", info);
-//    }];
-//    
-//    [weatherAPI getIconWithID:@"11n" completion:^(NSError *error, UIImage *image) {
-//    }];
     
     return YES;
 }

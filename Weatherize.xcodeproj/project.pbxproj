@@ -114,16 +114,16 @@
 		8BA0AFDC2029986C00B2289C /* Weatherize */ = {
 			isa = PBXGroup;
 			children = (
-				0F19550B202ED17600F7003A /* WeatherTableViewCell.h */,
-				0F19550A202ED17500F7003A /* WeatherTableViewCell.m */,
-				0F195507202ED05000F7003A /* Main.storyboard */,
 				8BA0B0132029A2A500B2289C /* Location */,
-				8BA0B01220299A8F00B2289C /* API */,
+				8BA0B01220299A8F00B2289C /* Weather */,
 				8BA0AFDD2029986C00B2289C /* AppDelegate.h */,
 				8BA0AFDE2029986C00B2289C /* AppDelegate.m */,
+				0F19550B202ED17600F7003A /* WeatherTableViewCell.h */,
+				0F19550A202ED17500F7003A /* WeatherTableViewCell.m */,
 				8BA0AFE02029986C00B2289C /* ViewController.h */,
 				8BA0AFE12029986C00B2289C /* ViewController.m */,
 				8BA0AFE62029986C00B2289C /* Assets.xcassets */,
+				0F195507202ED05000F7003A /* Main.storyboard */,
 				8BA0AFE82029986C00B2289C /* LaunchScreen.storyboard */,
 				8BA0AFEB2029986C00B2289C /* Info.plist */,
 				8BA0AFEC2029986C00B2289C /* main.m */,
@@ -149,7 +149,7 @@
 			path = WeatherizeUITests;
 			sourceTree = "<group>";
 		};
-		8BA0B01220299A8F00B2289C /* API */ = {
+		8BA0B01220299A8F00B2289C /* Weather */ = {
 			isa = PBXGroup;
 			children = (
 				8BA0B0112029996D00B2289C /* WeatherAPI.h */,
@@ -157,7 +157,7 @@
 				8BA0B018202A8FF900B2289C /* WeatherData.h */,
 				8BA0B019202A901200B2289C /* WeatherData.m */,
 			);
-			path = API;
+			path = Weather;
 			sourceTree = "<group>";
 		};
 		8BA0B0132029A2A500B2289C /* Location */ = {

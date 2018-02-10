@@ -1,4 +1,3 @@
-//
 //  WeatherTableViewCell.m
 //  Weatherize
 //
