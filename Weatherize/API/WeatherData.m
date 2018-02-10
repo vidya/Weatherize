@@ -1,4 +1,3 @@
-//
 //  WeatherData.m
 //  Weatherize
 //
@@ -15,54 +14,47 @@
 
 - (id)init {
     self = [super init];
-
+    
     if (self) {
         self.weatherAPI = [WeatherAPI new];
+        self.nextFiveDayNames = [self getNextFiveDayNames];
     }
-
+    
     return self;
 }
 
-- (NSString *)currentDay {
+- (NSArray *)getNextFiveDayNames {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"EEEE"];
     
-    NSLog(@"The day of the week: %@", [dateFormatter stringFromDate:[NSDate date]]);
+    NSDate *tempDay;
+    NSDate *today = [NSDate date];
     
-    return [dateFormatter stringFromDate:[NSDate date]];
-}
-
-- (NSArray *)fiveDays {
-    NSString *currentDay = [self currentDay];
+    NSMutableArray *nextFiveDayNames = [NSMutableArray arrayWithCapacity:5];
     
-    NSDateFormatter *dateFormatter = [NSDateFormatter new];
-    NSArray *weekdays = [dateFormatter weekdaySymbols];
+    double secondsInDay = (24 * 60 * 60);
     
-    NSMutableArray *daysNeeded = [NSMutableArray arrayWithCapacity:5];
+    tempDay = [today dateByAddingTimeInterval: (1 * secondsInDay)];
+    [nextFiveDayNames addObject:[dateFormatter stringFromDate: tempDay]];
     
-    /* Get the current day as a index of weekdays array, and count forward 5 days from it*/
-    NSUInteger currentIndex = [weekdays indexOfObject:currentDay];
+    tempDay = [today dateByAddingTimeInterval: (2 * secondsInDay)];
+    [nextFiveDayNames addObject:[dateFormatter stringFromDate: tempDay]];
     
-    for (int i = currentIndex; i <= 6; i++) {
-        if ([daysNeeded count] < 5) {
-            [daysNeeded addObject:weekdays[i]];
-        }
-    }
+    tempDay = [today dateByAddingTimeInterval: (3 * secondsInDay)];
+    [nextFiveDayNames addObject:[dateFormatter stringFromDate: tempDay]];
     
-    int daysRemaining = 5 - [daysNeeded count];
+    tempDay = [today dateByAddingTimeInterval: (4 * secondsInDay)];
+    [nextFiveDayNames addObject:[dateFormatter stringFromDate: tempDay]];
     
-    for(int i = 0; i < daysRemaining; i++) {
-        [daysNeeded addObject:weekdays[i]];
-    }
+    tempDay = [today dateByAddingTimeInterval: (5 * secondsInDay)];
+    [nextFiveDayNames addObject:[dateFormatter stringFromDate: tempDay]];
     
-    NSLog(@"daysNeeded: %@", daysNeeded);
-    
-    return [NSMutableArray arrayWithObject:currentDay];
+    return nextFiveDayNames;
 }
 
 - (NSDictionary *)extractWeatherData: (NSDictionary *)jsonDict {
     NSMutableDictionary *dataDict = [NSMutableDictionary new];
-
+    
     NSString *weatherIcon = [[jsonDict objectForKey:@"weather"] objectAtIndex:0][@"icon"];
     NSString *temperature = [jsonDict objectForKey:@"main"][@"temp"];
     
@@ -75,32 +67,23 @@
 - (void)getCurrentWeatherInfoWithCompletion:(APICallCompletionHandler)completion {
     [self.weatherAPI getCurrentWeatherInUnits: @"imperial" withCompletion:^(NSDictionary *apiResponseDict) {
         NSDictionary *weatherInfoDict = [self extractWeatherData:apiResponseDict];
-
+        
         completion(weatherInfoDict);
     }];
 }
 
 - (void)getFiveDayForecastInfoWithCompletion:(APICallCompletionHandler)completion {
     [self.weatherAPI getForecastWeatherInUnits: @"imperial" withCompletion: ^(NSDictionary *apiResponseDict) {
-
+        NSArray *fiveDayList = [self nextFiveDayNames];
         NSArray *weatherInfoDictArray = [apiResponseDict objectForKey:@"list"];
         
-        NSMutableArray *fiveDayForecastArray = [NSMutableArray arrayWithCapacity:5];
         NSMutableDictionary *fiveDayForecastInfo = [NSMutableDictionary new];
-
-        for (NSDictionary *weatherInfoDict in weatherInfoDictArray) {
-            NSDictionary *dataDict = [self extractWeatherData:weatherInfoDict];
+        
+        for (int n = 0; n < 5; n++ ) {
+            NSString *dayName = fiveDayList[n];
+            NSDictionary *dayWeatherDict = weatherInfoDictArray[n];
             
-            [fiveDayForecastArray addObject:dataDict];
-
-            if ([fiveDayForecastInfo count] == 5) {
-                for (NSString *day in [self fiveDays]) {
-                    int dex = (int)[[self fiveDays] indexOfObject:day];
-                    fiveDayForecastInfo[day] = fiveDayForecastArray[dex];
-                }
-                
-                NSLog(@"This is the Five Day Forecast Info: %@", fiveDayForecastInfo);
-            }
+            fiveDayForecastInfo[dayName] = [self extractWeatherData:dayWeatherDict];
         }
         
         completion(fiveDayForecastInfo);
@@ -108,4 +91,7 @@
 }
 
 @end
+
+
+
 

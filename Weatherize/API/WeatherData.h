@@ -1,4 +1,3 @@
-//
 //  WeatherData.h
 //  Weatherize
 //
@@ -11,9 +10,12 @@
 @interface WeatherData : NSObject
 
 @property (strong, nonatomic) WeatherAPI* weatherAPI;
+@property (strong, nonatomic) NSArray* nextFiveDayNames;
 
 - (void)getCurrentWeatherInfoWithCompletion:(APICallCompletionHandler)completion;
 - (void)getFiveDayForecastInfoWithCompletion:(APICallCompletionHandler)completion;
 
 @end
+
+
 

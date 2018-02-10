@@ -2,7 +2,7 @@
 //  LocationInfo.m
 //  Weatherize
 //
-//  Created by Vidya Sagar on 2/6/18.
+//  Created by Vidya Sagar  on 2/6/18.
 //
 #import "LocationInfo.h"
 
@@ -13,42 +13,31 @@
 - (id)init {
     self = [super init];
     
-    if (self) {
+    if(self) {
         self.locationManager = [CLLocationManager new];
-        
         [self.locationManager setDelegate:self];
-        
-        [self.locationManager setDesiredAccuracy:kCLLocationAccuracyKilometer];
+        [self.locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
         [self.locationManager requestWhenInUseAuthorization];
         [self.locationManager requestLocation];
-        
-        CLLocation *location = self.locationManager.location;
-        
-        self.latitude = location.coordinate.latitude;
-        self.longitude = location.coordinate.longitude;
     }
-    
     return self;
 }
 
-- (LocationInfo*)sharedSingleton {
++ (LocationInfo*)sharedSingleton {
     static LocationInfo* sharedSingleton;
-
+    
     if(!sharedSingleton) {
         static dispatch_once_t onceToken;
-    
+        
         dispatch_once(&onceToken, ^{
             sharedSingleton = [LocationInfo new];
         });
     }
-
+    
     return sharedSingleton;
 }
 
-- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations {    
-    self.latitude = [locations lastObject].coordinate.latitude;
-    self.longitude = [locations lastObject].coordinate.longitude;
-                      
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations {
     [self.locationManager stopUpdatingLocation];
 }
 
@@ -56,9 +45,11 @@
     NSLog(@"didFailWithError: %@", error);
 }
 
-- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation
-         fromLocation:(CLLocation *)oldLocation {
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
     NSLog(@"didUpdateToLocation: %@", newLocation);
+    [self.locationManager stopUpdatingLocation];
 }
 
 @end
+
+

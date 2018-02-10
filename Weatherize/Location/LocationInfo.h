@@ -2,7 +2,7 @@
 //  LocationInfo.h
 //  Weatherize
 //
-//  Created by Vidya Sagar on 2/6/18.
+//  Created by Vidya Sagar  on 2/6/18.
 //
 
 #import <CoreLocation/CoreLocation.h>
@@ -11,9 +11,6 @@
 
 @property (nonatomic, strong) CLLocationManager* locationManager;
 
-@property double latitude;
-@property double longitude;
-
-- (LocationInfo*)sharedSingleton;
++ (LocationInfo*)sharedSingleton;
 
 @end
