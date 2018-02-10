@@ -82,7 +82,7 @@
 - (void)loadWeatherInfo {
     [[self weatherData] getCurrentWeatherInfoWithCompletion:^(NSDictionary *info) {
         self.currentWeatherInfo = info;
-        NSLog(@"This is the current weather info\n\n: %@", self.currentWeatherInfo);
+        NSLog(@"current weather info:\n %@", self.currentWeatherInfo);
         
         [self configureWeatherIcon:self.currentWeatherInfo[@"weatherIcon"] inImageView:[self headerWeatherIcon]];
         [self configureTemperature:self.currentWeatherInfo[@"temperature"] inLabel:[self headerTemperatureLabel]];
@@ -90,7 +90,7 @@
     
     [[self weatherData] getFiveDayForecastInfoWithCompletion:^(NSDictionary *info) {
         self.forecastInfo = info;
-        NSLog(@"This is the current forecast info\n\n: %@", self.forecastInfo);
+        NSLog(@"forecast info:\n %@", self.forecastInfo);
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [[self tableView] reloadData];
@@ -116,7 +116,7 @@
     }
     
     NSString *currentDay = [self weatherData].nextFiveDayNames[indexPath.row];
-    NSLog(@"This is the data structure: %@", self.forecastInfo[currentDay]);
+    NSLog(@"forecastInfo for currentDay: %@", self.forecastInfo[currentDay]);
     
     NSDictionary *dayForecast = self.forecastInfo[currentDay];
     

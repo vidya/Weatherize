@@ -14,8 +14,9 @@
     self = [super init];
     
     if(self) {
-        self.locationManager = [CLLocationManager new];
+        self.locationManager = [CLLocationManager new];        
         [self.locationManager setDelegate:self];
+        
         [self.locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
         [self.locationManager requestWhenInUseAuthorization];
         [self.locationManager requestLocation];
