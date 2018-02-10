@@ -12,6 +12,8 @@
 @interface WeatherAPI : NSObject
 
 @property (strong, nonatomic) NSString* temperatureUnits;
+@property (strong, nonatomic) NSMutableDictionary* iconCache;
+
 @property (strong, nonatomic) LocationInfo* locationInfo;
 
 typedef void (^APICallCompletionHandler)(NSDictionary *jsonDict);

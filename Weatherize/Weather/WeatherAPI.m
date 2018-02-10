@@ -21,11 +21,12 @@ static NSString* const forecastWeatherURL = @"https://api.openweathermap.org/dat
 
 static NSString* const iconURL = @"https://openweathermap.org/img/w/";
 
+
 - (id)init {
     self = [super init];
     
-    if(self) {
-        //        self.locationInfo = [LocationInfo new];
+    if (self) {
+        self.iconCache = [[NSMutableDictionary alloc] init];
     }
     
     return self;
@@ -102,25 +103,34 @@ static NSString* const iconURL = @"https://openweathermap.org/img/w/";
 
 - (void)getIconWithID:(NSString *)weatherIconID completion:(ImageCompletionBlock)completion;
 {
-    NSString* iconString = [NSString stringWithFormat:@"%@.png", weatherIconID];
+    UIImage *imageInCache = [self.iconCache objectForKey:weatherIconID];
     
-    NSString* rawURL = [iconURL stringByAppendingString:iconString];
-    NSString *encodedURL = [rawURL
-                            stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
-    
-    NSLog(@"encodedURL: %@", encodedURL);
-    
-    [[[NSURLSession sharedSession]
-      dataTaskWithURL:[NSURL URLWithString:encodedURL]
-      completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-          if (!error) {
-              UIImage *image = [[UIImage alloc] initWithData:data];
-              completion(nil, image);
-          }
-          else {
-              completion(error, nil);
-          }
-      }] resume];
+    if (imageInCache) {
+        completion(nil, imageInCache);
+    }
+    else {
+        NSString* iconString = [NSString stringWithFormat:@"%@.png", weatherIconID];
+        
+        NSString* rawURL = [iconURL stringByAppendingString:iconString];
+        NSString *encodedURL = [rawURL
+                                stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+        
+        NSLog(@"encodedURL: %@", encodedURL);
+        
+        [[[NSURLSession sharedSession]
+          dataTaskWithURL:[NSURL URLWithString:encodedURL]
+          completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+              if (!error) {
+                  UIImage *image = [[UIImage alloc] initWithData:data];
+                  self.iconCache[weatherIconID] = image;
+                  
+                  completion(nil, image);
+              }
+              else {
+                  completion(error, nil);
+              }
+          }] resume];
+    }
 }
 
 @end
