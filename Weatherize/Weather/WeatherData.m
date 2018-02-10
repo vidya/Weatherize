@@ -110,10 +110,7 @@
         [self getFiveDayForecastInfoWithCompletion: ^(NSDictionary *apiResponseDict) {
 
             NSArray *fiveDayList = self.nextFiveDayNames;
-            NSArray *weatherInfoDictArray = [apiResponseDict objectForKey:@"list"];
 
-            NSMutableDictionary *fiveDayForecastInfo = [NSMutableDictionary new];
-            
             for (int n = 0; n < 5; n++ ) {
                 NSString *dayName = fiveDayList[n];
                 NSMutableDictionary *tempDict = [NSMutableDictionary new];
@@ -124,25 +121,6 @@
 
                 [weatherData addObject:tempDict];
             }
-
-
-
-  
-            
-//            for (int n = 0; n < 5; n++ ) {
-//                NSString *dayName = fiveDayList[n];
-//                NSDictionary *dayWeatherDict = weatherInfoDictArray[n];
-//
-//                fiveDayForecastInfo[dayName] = [self extractWeatherData:dayWeatherDict];
-//
-//                NSMutableDictionary *tempDict = [NSMutableDictionary new];
-//
-//                tempDict[@"dayName"] = dayName;
-//                tempDict[@"weatherIcon"] = fiveDayForecastInfo[@"weatherIcon"];
-//                tempDict[@"temperature"] = fiveDayForecastInfo[@"temperature"];
-//
-//                [weatherData addObject:tempDict];
-//            }
             completion(weatherData);
 
         }];
@@ -152,12 +130,7 @@
     }];
     
     completion(weatherData);
-
 }
 
 
 @end
-
-
-
-
