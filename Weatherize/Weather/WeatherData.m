@@ -34,7 +34,9 @@
     NSMutableArray *nextFiveDayNames = [NSMutableArray arrayWithCapacity:5];
     
     double secondsInDay = (24 * 60 * 60);
-    
+
+    [nextFiveDayNames addObject:[dateFormatter stringFromDate: today]];
+
     tempDay = [today dateByAddingTimeInterval: (1 * secondsInDay)];
     [nextFiveDayNames addObject:[dateFormatter stringFromDate: tempDay]];
     

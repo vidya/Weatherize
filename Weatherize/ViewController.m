@@ -36,9 +36,7 @@
             [self setWeatherIcon:self.dataResponseArray[0][@"weatherIcon"] inImageView:self.headerWeatherIcon];
             
             [[self tableView] reloadData];
-            
         });
-
     }];
 }
 
@@ -82,17 +80,7 @@
     }
     
     NSDictionary *dayDict = self.dataResponseArray[indexPath.row];
-    
-    int newIndex = 0;
-    if (indexPath.row > 4) {
-        newIndex = 4;
-    }
-    else {
-        newIndex = indexPath.row;
-    }
-//    newIndex = indexPath.row;
-
-    NSString *dayName = [self weatherData].nextFiveDayNames[newIndex];
+    NSString *dayName = [self weatherData].nextFiveDayNames[indexPath.row];
 
     NSDictionary *tempDict = dayDict;
 
