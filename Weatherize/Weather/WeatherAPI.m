@@ -52,7 +52,7 @@ static NSString* const iconURL = @"https://openweathermap.org/img/w/";
     }
     else {
         formatString = @"lat=%f&lon=%f&units=%@&appid=%@";
-        formatString = [@"cnt=5&"  stringByAppendingString:formatString];
+        formatString = [@"cnt=6&"  stringByAppendingString:formatString];
         
         query = [NSString stringWithFormat:formatString,
                  singleton.locationManager.location.coordinate.latitude,

@@ -79,16 +79,18 @@
         cell = [[WeatherTableViewCell new] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"weatherCell"];
     }
     
-    NSDictionary *tempDict = self.dataResponseArray[indexPath.row];
+    if (indexPath.row < 5) {
+        NSDictionary *tempDict = self.dataResponseArray[indexPath.row + 1];
+        
+        NSString *dayName = tempDict[@"dayName"];
+        NSString *iconID = tempDict[@"weatherIcon"];
+        NSString *temperature = tempDict[@"temperature"];
+        
+        [self setDayLabel:dayName inLabel:cell.dayLabel];
+        [self setWeatherIcon:iconID inImageView:cell.weatherIcon];
+        [self setTemperature:temperature inLabel:cell.temperatureLabel];
+    }
 
-    NSString *dayName = tempDict[@"dayName"];
-    NSString *iconID = tempDict[@"weatherIcon"];
-    NSString *temperature = tempDict[@"temperature"];
-
-    [self setDayLabel:dayName inLabel:cell.dayLabel];
-    [self setWeatherIcon:iconID inImageView:cell.weatherIcon];
-    [self setTemperature:temperature inLabel:cell.temperatureLabel];
-    
     return cell;
 }
 
