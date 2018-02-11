@@ -17,42 +17,41 @@
     
     if (self) {
         self.weatherAPI = [WeatherAPI new];
-        self.theseSixDayNames = [NSMutableArray new];
-        self.theseSixDayNames = [self getNextFiveDayNames];
+        self.theseSixDayNames = [self getTheseSixDayNames];
     }
     
     return self;
 }
 
-- (NSArray *)getNextFiveDayNames {
+- (NSArray *)getTheseSixDayNames {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"EEEE"];
     
     NSDate *tempDay;
     NSDate *today = [NSDate date];
     
-    NSMutableArray *nextFiveDayNames = [NSMutableArray arrayWithCapacity:5];
+    NSMutableArray *nextSixDayNames = [NSMutableArray arrayWithCapacity:5];
     
     double secondsInDay = (24 * 60 * 60);
 
-    [nextFiveDayNames addObject:[dateFormatter stringFromDate: today]];
+    [nextSixDayNames addObject:[dateFormatter stringFromDate: today]];
 
     tempDay = [today dateByAddingTimeInterval: (1 * secondsInDay)];
-    [nextFiveDayNames addObject:[dateFormatter stringFromDate: tempDay]];
+    [nextSixDayNames addObject:[dateFormatter stringFromDate: tempDay]];
     
     tempDay = [today dateByAddingTimeInterval: (2 * secondsInDay)];
-    [nextFiveDayNames addObject:[dateFormatter stringFromDate: tempDay]];
+    [nextSixDayNames addObject:[dateFormatter stringFromDate: tempDay]];
     
     tempDay = [today dateByAddingTimeInterval: (3 * secondsInDay)];
-    [nextFiveDayNames addObject:[dateFormatter stringFromDate: tempDay]];
+    [nextSixDayNames addObject:[dateFormatter stringFromDate: tempDay]];
     
     tempDay = [today dateByAddingTimeInterval: (4 * secondsInDay)];
-    [nextFiveDayNames addObject:[dateFormatter stringFromDate: tempDay]];
+    [nextSixDayNames addObject:[dateFormatter stringFromDate: tempDay]];
     
     tempDay = [today dateByAddingTimeInterval: (5 * secondsInDay)];
-    [nextFiveDayNames addObject:[dateFormatter stringFromDate: tempDay]];
+    [nextSixDayNames addObject:[dateFormatter stringFromDate: tempDay]];
     
-    return nextFiveDayNames;
+    return nextSixDayNames;
 }
 
 - (NSDictionary *)extractWeatherData: (NSDictionary *)jsonDict {
