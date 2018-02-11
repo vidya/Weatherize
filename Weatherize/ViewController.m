@@ -18,6 +18,7 @@
     
     if (self) {
         self.weatherData = [WeatherData new];
+        self.dataResponseArray = [NSMutableArray new];
     }
     
     return self;
@@ -27,14 +28,18 @@
     [super viewDidLoad];
     
     [self.weatherData getWeatherDataWithCompletion:^(NSArray *dataResponse) {
-    
         self.dataResponseArray = (NSMutableArray *) dataResponse;        
+        NSLog(@"-->%@", self.dataResponseArray);
         
-        [[self tableView] reloadData];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self setTemperature:self.dataResponseArray[0][@"temperature"] inLabel:self.headerTemperatureLabel];
+            [self setWeatherIcon:self.dataResponseArray[0][@"weatherIcon"] inImageView:self.headerWeatherIcon];
+            
+            [[self tableView] reloadData];
+            
+        });
 
     }];
-    [[self tableView] reloadData];
-
 }
 
 - (void)setTemperature:(NSString *)temperature inLabel:(UILabel *)label {
@@ -85,6 +90,8 @@
     else {
         newIndex = indexPath.row;
     }
+//    newIndex = indexPath.row;
+
     NSString *dayName = [self weatherData].nextFiveDayNames[newIndex];
 
     NSDictionary *tempDict = dayDict;

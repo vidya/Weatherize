@@ -93,6 +93,7 @@
 
 - (void)getWeatherDataWithCompletion:(NewAPICallCompletionHandler)completion {
     NSMutableArray *weatherData = [NSMutableArray new];
+    
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"EEEE"];
 
@@ -121,15 +122,10 @@
 
                 [weatherData addObject:tempDict];
             }
+            
             completion(weatherData);
-
         }];
-
-        completion(weatherData);
-    
     }];
-    
-    completion(weatherData);
 }
 
 
