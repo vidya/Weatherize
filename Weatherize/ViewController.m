@@ -79,11 +79,9 @@
         cell = [[WeatherTableViewCell new] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"weatherCell"];
     }
     
-    NSDictionary *dayDict = self.dataResponseArray[indexPath.row];
-    NSString *dayName = [self weatherData].theseSixDayNames[indexPath.row];
+    NSDictionary *tempDict = self.dataResponseArray[indexPath.row];
 
-    NSDictionary *tempDict = dayDict;
-
+    NSString *dayName = tempDict[@"dayName"];
     NSString *iconID = tempDict[@"weatherIcon"];
     NSString *temperature = tempDict[@"temperature"];
 
