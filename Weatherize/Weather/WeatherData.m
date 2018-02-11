@@ -17,8 +17,8 @@
     
     if (self) {
         self.weatherAPI = [WeatherAPI new];
-        self.nextFiveDayNames = [NSMutableArray new];
-        self.nextFiveDayNames = [self getNextFiveDayNames];
+        self.theseSixDayNames = [NSMutableArray new];
+        self.theseSixDayNames = [self getNextFiveDayNames];
     }
     
     return self;
@@ -77,7 +77,7 @@
 
 - (void)getFiveDayForecastInfoWithCompletion:(APICallCompletionHandler)completion {
     [self.weatherAPI getForecastWeatherInUnits: @"imperial" withCompletion: ^(NSDictionary *apiResponseDict) {
-        NSArray *fiveDayList = [self nextFiveDayNames];
+        NSArray *fiveDayList = [self theseSixDayNames];
         NSArray *weatherInfoDictArray = [apiResponseDict objectForKey:@"list"];
         
         NSMutableDictionary *fiveDayForecastInfo = [NSMutableDictionary new];
@@ -112,7 +112,7 @@
 
         [self getFiveDayForecastInfoWithCompletion: ^(NSDictionary *apiResponseDict) {
 
-            NSArray *fiveDayList = self.nextFiveDayNames;
+            NSArray *fiveDayList = self.theseSixDayNames;
 
             for (int n = 0; n < 5; n++ ) {
                 NSString *dayName = fiveDayList[n];

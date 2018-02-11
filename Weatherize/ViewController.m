@@ -80,7 +80,7 @@
     }
     
     NSDictionary *dayDict = self.dataResponseArray[indexPath.row];
-    NSString *dayName = [self weatherData].nextFiveDayNames[indexPath.row];
+    NSString *dayName = [self weatherData].theseSixDayNames[indexPath.row];
 
     NSDictionary *tempDict = dayDict;
 
