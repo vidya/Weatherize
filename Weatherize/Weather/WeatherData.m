@@ -57,74 +57,43 @@
 - (NSDictionary *)extractWeatherData: (NSDictionary *)jsonDict {
     NSMutableDictionary *dataDict = [NSMutableDictionary new];
     
-    NSString *weatherIcon = [[jsonDict objectForKey:@"weather"] objectAtIndex:0][@"icon"];
-    NSString *temperature = [jsonDict objectForKey:@"main"][@"temp"];
-    
-    dataDict[@"weatherIcon"] = weatherIcon;
-    dataDict[@"temperature"] = temperature;
+    dataDict[@"weatherIcon"] = [[jsonDict objectForKey:@"weather"] objectAtIndex:0][@"icon"];
+    dataDict[@"temperature"] = [jsonDict objectForKey:@"main"][@"temp"];
     
     return dataDict;
 }
 
-- (void)getCurrentWeatherInfoWithCompletion:(APICallCompletionHandler)completion {
-    [self.weatherAPI getCurrentWeatherInUnits: @"imperial" withCompletion:^(NSDictionary *apiResponseDict) {
-        NSDictionary *weatherInfoDict = [self extractWeatherData:apiResponseDict];
-        
-        completion(weatherInfoDict);
-    }];
-}
-
-- (void)getFiveDayForecastInfoWithCompletion:(APICallCompletionHandler)completion {
-    [self.weatherAPI getForecastWeatherInUnits: @"imperial" withCompletion: ^(NSDictionary *apiResponseDict) {
-        NSArray *fiveDayList = [self theseSixDayNames];
-        NSArray *weatherInfoDictArray = [apiResponseDict objectForKey:@"list"];
-        
-        NSMutableDictionary *fiveDayForecastInfo = [NSMutableDictionary new];
-        
-        for (int n = 0; n < 5; n++ ) {
-            NSString *dayName = fiveDayList[n];
-            NSDictionary *dayWeatherDict = weatherInfoDictArray[n];
-            
-            fiveDayForecastInfo[dayName] = [self extractWeatherData:dayWeatherDict];
-        }
-        
-        completion(fiveDayForecastInfo);
-    }];
-}
-
-- (void)getWeatherDataWithCompletion:(NewAPICallCompletionHandler)completion {
-    NSMutableArray *weatherData = [NSMutableArray new];
+- (void)getWeatherDataWithCompletion:(DataFetchCompletionHandler)completion {
+    NSMutableDictionary* weatherDataDict = [[NSMutableDictionary alloc] init];
     
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"EEEE"];
+    [self.weatherAPI getCurrentWeatherInUnits: @"imperial"
+                               withCompletion: ^(NSDictionary *apiResponseDict) {
+        // current weather
+        weatherDataDict[@"currentWeather"] = [self extractWeatherData:apiResponseDict];
 
-    [self getCurrentWeatherInfoWithCompletion:^(NSDictionary *info) {
-        NSDate *today = [NSDate date];
-        NSString *dayName = [dateFormatter stringFromDate: today];
-        NSMutableDictionary *tempDict = [NSMutableDictionary new];
-        
-        tempDict[@"dayName"] = dayName;
-        tempDict[@"weatherIcon"] = info[@"weatherIcon"];
-        tempDict[@"temperature"] = info[@"temperature"];
+        [self.weatherAPI getForecastWeatherInUnits: @"imperial"
+                                    withCompletion: ^(NSDictionary *apiResponseDict) {
+            // forecast weather
+            NSArray *fiveDayList = [self theseSixDayNames];
 
-        [weatherData addObject:tempDict];
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            [dateFormatter setDateFormat:@"EEEE"];
 
-        [self getFiveDayForecastInfoWithCompletion: ^(NSDictionary *apiResponseDict) {
+            NSArray *responseDictList = [apiResponseDict objectForKey:@"list"];
 
-            NSArray *fiveDayList = self.theseSixDayNames;
-
-            for (int n = 0; n < 5; n++ ) {
-                NSString *dayName = fiveDayList[n];
-                NSMutableDictionary *tempDict = [NSMutableDictionary new];
-
-                tempDict[@"dayName"] = dayName;
-                tempDict[@"weatherIcon"] = apiResponseDict[dayName][@"weatherIcon"];
-                tempDict[@"temperature"] = apiResponseDict[dayName][@"temperature"];
-
-                [weatherData addObject:tempDict];
-            }
+            NSMutableDictionary *fiveDayForecastInfo = [NSMutableDictionary new];
             
-            completion(weatherData);
+            int n = 0;
+            for (NSString* dayName in fiveDayList) {
+                fiveDayForecastInfo[dayName] = [self extractWeatherData:responseDictList[n]];
+                
+                fiveDayForecastInfo[dayName][@"dayName"] = dayName;
+                n++;
+            }
+
+            weatherDataDict[@"forecastWeather"] = fiveDayForecastInfo;
+
+            completion(weatherDataDict);
         }];
     }];
 }

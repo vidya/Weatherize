@@ -17,7 +17,6 @@
 @property (strong, nonatomic) LocationInfo* locationInfo;
 
 typedef void (^APICallCompletionHandler)(NSDictionary *jsonDict);
-typedef void (^NewAPICallCompletionHandler)(NSArray *weatherDataArray);
 
 - (void)getCurrentWeatherInUnits:(NSString*)temperatureUnits withCompletion:(APICallCompletionHandler)completion;
 - (void)getForecastWeatherInUnits:(NSString*)temperatureUnits withCompletion:(APICallCompletionHandler)completion;

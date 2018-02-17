@@ -18,7 +18,6 @@
     
     if (self) {
         self.weatherData = [WeatherData new];
-        self.dataResponseArray = [NSMutableArray new];
     }
     
     return self;
@@ -27,40 +26,52 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self.weatherData getWeatherDataWithCompletion:^(NSArray *dataResponse) {
-        self.dataResponseArray = (NSMutableArray *) dataResponse;        
-        NSLog(@"-->%@", self.dataResponseArray);
+    [self.weatherData getWeatherDataWithCompletion:^(NSDictionary *dataResponse) {
+        NSLog(@"-->%@", dataResponse);
         
+        self.forecastResponseDict = dataResponse[@"forecastWeather"];
+
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self setTemperature:self.dataResponseArray[0][@"temperature"] inLabel:self.headerTemperatureLabel];
-            [self setWeatherIcon:self.dataResponseArray[0][@"weatherIcon"] inImageView:self.headerWeatherIcon];
-            
+            [self setCurrentWeatherFromDataResponse:dataResponse[@"currentWeather"]];
+
             [[self tableView] reloadData];
         });
-    }];
-}
-
-- (void)setTemperature:(NSString *)temperature inLabel:(UILabel *)label {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [label setFont:[UIFont systemFontOfSize:16.0]];
         
-        [label setText:[NSString stringWithFormat:@"%.02f°", [temperature floatValue]]];
-    });
-}
-
-- (void)setDayLabel:(NSString *)day inLabel:(UILabel *)label {
-    [label setFont:[UIFont systemFontOfSize:14.0 weight:UIFontWeightBold]];
-    [label setText:day];
-}
-
-- (void)setWeatherIcon:(NSString *)weatherIcon inImageView:(UIImageView *)imageView {
-    [[[self weatherData] weatherAPI] getIconWithID:weatherIcon completion:^(NSError *error, UIImage *image) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [imageView setImage:image];
-        });
     }];
 }
 
+- (void)setCurrentWeatherFromDataResponse: (NSDictionary *)responseDict {
+    NSMutableDictionary* weatherProps = [[NSMutableDictionary alloc] init];
+
+    weatherProps[@"weatherIcon"] = responseDict[@"weatherIcon"];
+    weatherProps[@"temperature"] = responseDict[@"temperature"];
+    
+    weatherProps[@"imageView"] = self.headerWeatherIcon;
+    weatherProps[@"label"] = self.headerTemperatureLabel;
+    
+    [self setWeatherWithProps:weatherProps];
+}
+
+- (void)setWeatherWithProps: (NSDictionary *)propsDict {
+    UIImageView* imageView = propsDict[@"imageView"];
+    UILabel* label = propsDict[@"label"];
+    
+    NSString* icon = propsDict[@"weatherIcon"];
+    NSString* temperature = propsDict[@"temperature"];
+
+    WeatherAPI* weatherAPI = [[self weatherData] weatherAPI];
+    
+    [weatherAPI getIconWithID:icon
+                   completion:^(NSError *error, UIImage *image) {
+                       dispatch_async(dispatch_get_main_queue(), ^{
+                           [imageView setImage:image];
+                           
+                           [label setFont:[UIFont systemFontOfSize:16.0]];
+                           [label setText:[NSString stringWithFormat:@"%.02f°", [temperature floatValue]]];
+                       });
+                   }];
+
+}
 
 #pragma mark UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -68,8 +79,24 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return [[self forecastResponseDict] count];
+}
 
-    return [[self dataResponseArray] count];
+- (void)setForecastWeatherInCell: (WeatherTableViewCell *)cell FromDataResponse: (NSDictionary *)responseDict {
+    NSString* dayName = responseDict[@"dayName"];
+    
+    [cell.dayLabel setFont:[UIFont systemFontOfSize:14.0 weight:UIFontWeightBold]];
+    [cell.dayLabel setText:dayName];
+    
+    NSMutableDictionary* weatherProps = [[NSMutableDictionary alloc] init];
+    
+    weatherProps[@"weatherIcon"] = responseDict[@"weatherIcon"];
+    weatherProps[@"temperature"] = responseDict[@"temperature"];
+    
+    weatherProps[@"imageView"] = cell.weatherIcon;
+    weatherProps[@"label"] = cell.temperatureLabel;
+    
+    [self setWeatherWithProps:weatherProps];
 }
 
 - (WeatherTableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -79,16 +106,12 @@
         cell = [[WeatherTableViewCell new] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"weatherCell"];
     }
     
+    NSArray* sixDayNames = [self.weatherData theseSixDayNames];
+    
     if (indexPath.row < 5) {
-        NSDictionary *tempDict = self.dataResponseArray[indexPath.row + 1];
-        
-        NSString *dayName = tempDict[@"dayName"];
-        NSString *iconID = tempDict[@"weatherIcon"];
-        NSString *temperature = tempDict[@"temperature"];
-        
-        [self setDayLabel:dayName inLabel:cell.dayLabel];
-        [self setWeatherIcon:iconID inImageView:cell.weatherIcon];
-        [self setTemperature:temperature inLabel:cell.temperatureLabel];
+        NSString* dayName = sixDayNames[indexPath.row + 1];
+        [self setForecastWeatherInCell:cell
+                      FromDataResponse:self.forecastResponseDict[dayName]];
     }
 
     return cell;

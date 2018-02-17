@@ -12,10 +12,9 @@
 @property (strong, nonatomic) WeatherAPI* weatherAPI;
 @property (strong, nonatomic) NSArray* theseSixDayNames;
 
-- (void)getCurrentWeatherInfoWithCompletion:(APICallCompletionHandler)completion;
-- (void)getFiveDayForecastInfoWithCompletion:(APICallCompletionHandler)completion;
+typedef void (^DataFetchCompletionHandler)(NSDictionary *weatherDataArray);
 
-- (void)getWeatherDataWithCompletion:(NewAPICallCompletionHandler)completion;
+- (void)getWeatherDataWithCompletion:(DataFetchCompletionHandler)completion;
 
 @end
 

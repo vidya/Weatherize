@@ -15,7 +15,7 @@
 
 @property (strong, nonatomic) WeatherData *weatherData;
 
-@property (strong, nonatomic) NSMutableArray *dataResponseArray;
+@property (strong, nonatomic) NSMutableDictionary *forecastResponseDict;
 
 @end
 
